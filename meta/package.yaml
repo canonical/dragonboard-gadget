@@ -1,14 +1,14 @@
-name: dragonboard
+name: canonical-dragon
 vendor: Oliver Grawert <ogra@canonical.com>
 icon: meta/icon.png
 version: 0.1
-type: oem
+type: gadget
 architectures: [ all ]
 
 immutable-config:
     - ubuntu-core/autopilot*
 
-oem:
+gadget:
   branding:
     name: Dragonboard
     subname: Dragonboard
@@ -16,7 +16,7 @@ oem:
   hardware:
     platform: msm8916-mtp
     architecture: arm64
-    partition-layout: system-AB
+    partition-layout: minimal
     bootloader: u-boot
     boot-assets:
       files:
