@@ -1,7 +1,8 @@
 name: canonical-dragon
-vendor: Oliver Grawert <ogra@canonical.com>
-icon: meta/icon.png
-version: 0.1
+summary: Dragonbaord support package
+description: |
+ Support files for booting the 96boards dragonboard
+version: 0.4
 type: gadget
 architectures: [ all ]
 
@@ -39,6 +40,7 @@ gadget:
       raw-partitions:
           - name: sbl1
             size: 512
+            offset: 34
             type: DEA0BA2C-CBDD-4805-B4F9-F428251C3E98
           - name: rpm
             size: 512
