@@ -2,7 +2,7 @@ name: canonical-dragon
 summary: Dragonbaord support package
 description: |
  Support files for booting the 96boards dragonboard
-version: 0.5
+version: 0.6
 type: gadget
 architectures: [ all ]
 
