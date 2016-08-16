@@ -2,6 +2,6 @@ name: dragonboard
 summary: Dragonbaord support package
 description: |
  Support files for booting the 96boards dragonboard
-version: 16.04-0.2
+version: 16.04-0.4
 type: gadget
 architectures: [ all ]
