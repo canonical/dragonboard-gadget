@@ -1,5 +1,5 @@
 name: dragonboard
-summary: Dragonbaord support package
+summary: Dragonboard support package
 description: |
  Support files for booting the 96boards dragonboard
 version: 16.04-0.4
