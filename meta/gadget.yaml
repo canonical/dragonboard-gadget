@@ -6,31 +6,38 @@ volumes:
     bootloader: u-boot
     structure:
       - name: sbl1
-        image: sbl1.mbn
+        content:
+            - image: sbl1.mbn
         size: 512
         type: DEA0BA2C-CBDD-4805-B4F9-F428251C3E98
       - name: rpm
-        image: rpm.mbn
+        content:
+            - image: rpm.mbn
         size: 512
         type: 098DF793-D712-413D-9D4E-89D711772228
       - name: tz
-        image: tz.mbn
+        content:
+            - image: tz.mbn
         size: 512
         type: A053AA7F-40B8-4B1C-BA08-2F68AC71A4F4
       - name: hyp
-        image: hyp.mbn
+        content:
+            - image: hyp.mbn
         size: 512
         type: E1A6A689-0C8D-4CC6-B4E8-55A4320FBD8A
       - name: sec
-        image: sec.dat
+        content:
+            - image: sec.dat
         size: 16
         type: 303E6AC3-AF15-4C54-9E9B-D9A8FBECF401
       - name: aboot
-        image: sd_appsboot.mbn
+        content:
+            - image: sd_appsboot.mbn
         size: 1024
         type: 400FFDCD-22E0-47E7-9A23-F16ED9382388
       - name: boot
-        image: u-boot.img
+        content:
+            - image: u-boot.img
         size: 1024
         type: 20117F86-E985-4357-B9EE-374BC1D8487D
       - type: 0C
