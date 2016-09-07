@@ -45,6 +45,3 @@ volumes:
         filesystem: vfat
         filesystem-label: system-boot
         size: 128M
-        content:
-          - source: ./uboot.env
-            target: /
