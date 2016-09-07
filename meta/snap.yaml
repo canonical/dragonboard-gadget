@@ -4,4 +4,5 @@ description: |
  Support files for booting the 96boards dragonboard
 version: 16.04-0.8
 type: gadget
-architectures: [ all ]
+architectures:
+  - arm64
