@@ -6,7 +6,7 @@ volumes:
     bootloader: u-boot
     structure:
       - name: sbl1
-        size: 512KiB
+        size: 512K
         content:
             - image: sbl1.mbn
         type: DEA0BA2C-CBDD-4805-B4F9-F428251C3E98
