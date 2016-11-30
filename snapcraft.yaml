@@ -1,8 +1,14 @@
 name: dragonboard
+version: 16.04-0.18
 summary: Dragonboard support package
 description: |
  Support files for booting the 96boards dragonboard
-version: 16.04-0.18
 type: gadget
 architectures:
-  - arm64
+  - armhf
+confinement: strict
+grade: stable
+parts:
+    prebuilt:
+        plugin: dump
+        source: prebuilt
