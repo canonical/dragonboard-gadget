@@ -5,7 +5,7 @@ description: |
  Support files for booting the 96boards dragonboard
 type: gadget
 architectures:
-  - armhf
+  - arm64
 confinement: strict
 grade: stable
 parts:
