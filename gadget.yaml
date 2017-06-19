@@ -33,7 +33,7 @@ volumes:
       - name: aboot
         size: 2097152
         content:
-            - image: sdappsboot.mbn
+            - image: emmc_appsboot.mbn
         type: 400FFDCD-22E0-47E7-9A23-F16ED9382388
       - name: boot
         size: 1048576
