@@ -41,3 +41,17 @@ This used to be in the old README file, it will be phased out over time
 uboot.env is created from uboot.env.in via:
 $ mkenvimage -r -s 131072  -o uboot.env uboot.env.in
 ```
+
+## Building u-boot:
+$ git clone https://github.com/hallor/u-boot.git
+$ git apply u-boot.patch
+$ make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- dragonboard410c_defconfig
+$ make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j4
+repack u-boot to android boot.img format
+use tool from: git://codeaurora.org/quic/kernel/skales
+$ ./mkbootimg --kernel=u-boot.bin --output=u-boot.img --dt=fake_dt --pagesize 2048 --base 0x80000000 --ramdisk=fake_ramdisk --cmdline=""ll
+
+## Build lk:
+$ git clone http://git.linaro.org/landing-teams/working/qualcomm/lk.git -b dragonboard410c-LA.BR.1.2.7-03810-8x16.0-linaro1
+toolchain: $ git clone  git://codeaurora.org/platform/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8.git -b LA.BR.1.1.3.c4-01000-8x16.0
+$ make -j4 msm8916 EMMC_BOOT=1 TOOLCHAIN_PREFIX=/home/ubuntu/snappy-devices/arm-eabi-4.8/bin/arm-eabi-
