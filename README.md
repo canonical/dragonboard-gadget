@@ -44,7 +44,7 @@ $ mkenvimage -r -s 131072  -o uboot.env uboot.env.in
 
 ## Building u-boot:
 ```
-$ git clone https://github.com/hallor/u-boot.git
+$ git clone git://git.denx.de/u-boot.git -b v2017.03
 $ git apply u-boot.patch
 $ make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- dragonboard410c_defconfig
 $ make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j4
@@ -52,7 +52,9 @@ $ make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j4
 repack u-boot to android boot.img format
 use tool from: git://codeaurora.org/quic/kernel/skales
 ```
-$ ./mkbootimg --kernel=u-boot.bin --output=u-boot.img --dt=fake_dt --pagesize 2048 --base 0x80000000 --ramdisk=fake_ramdisk --cmdline=""ll
+$ ./dtbTool -o u-boot-dt.img -s 2048 arch/arm/dts/
+$ touch u-boot-ramdisk.img
+$ ./mkbootimg --kernel=u-boot.bin --output=u-boot.img --dt=u-boot-dt.img --pagesize 2048 --base 0x80000000 --ramdisk=u-boot-ramdisk.img --cmdline=""
 ```
 
 ## Build lk:
