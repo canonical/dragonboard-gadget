@@ -19,7 +19,7 @@ projects better than what is available with Github issues.
 
 ## Building
 
-To build the gadget snap locally please use `snapcraft`.
+To build the gadget snap locally please use `snapcraft --target-arch=arm64`.
 
 ## Launchpad Mirror and Automatic Builds.
 
@@ -44,8 +44,8 @@ $ mkenvimage -r -s 131072  -o uboot.env uboot.env.in
 
 ## Building u-boot:
 ```
-$ git clone git://git.denx.de/u-boot.git -b v2017.03
-$ git apply u-boot.patch
+$ git clone git://git.denx.de/u-boot.git -b v2017.05
+$ git apply sd_u-boot.patch
 $ make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- dragonboard410c_defconfig
 $ make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- -j4
 ```
@@ -68,7 +68,7 @@ $ make -j4 msm8916 EMMC_BOOT=1 TOOLCHAIN_PREFIX=/home/ubuntu/snappy-devices/arm-
 ## Build fastboot partition table blob
 ```
 $ git clone https://git.linaro.org/landing-teams/working/qualcomm/db-boot-tools.git
-$ sudo ./mksdcard -g -o sd.img -p dragonboard-gadget/prebuilt/partitions.txt ; sudo sgdisk -bgpt.bin sd.img; ./mkgpt -i gpt.bin -o gpt_both0.bin
+$ sudo ./mksdcard -g -o sd.img -p emmc-partitions.txt; sudo sgdisk -bgpt.bin sd.img; ./mkgpt -i gpt.bin -o gpt_both0.bin
 ```
 
 ## Repartition emmc with fastboot

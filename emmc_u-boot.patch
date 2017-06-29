@@ -1,26 +1,15 @@
-From 330e7257464b405d0f0edfd6d87eddc51c96c67f Mon Sep 17 00:00:00 2001
+From c392071efdb00f63a449e3d29b2ccf7e6c69c831 Mon Sep 17 00:00:00 2001
 From: Ondrej Kubik <ondrej.kubik@canonical.com>
 Date: Wed, 21 Jun 2017 17:23:58 +0000
-Subject: [PATCH 1/1] suport patch for dragonboard410c for ubuntu-core patch
- needs to revert changes to driver/mmc/sdhci.c which breaks support for emmc
+Subject: [PATCH 1/1] suport patch for dragonboard410c for ubuntu-core - needs
+ to revert changes to driver/mmc/sdhci.c which breaks support for emmc
 
 Signed-off-by: Ondrej Kubik <ondrej.kubik@canonical.com>
 ---
- configs/dragonboard410c_defconfig |  2 ++
  drivers/mmc/sdhci.c               | 15 ++++-----------
- include/configs/dragonboard410c.h | 35 ++++++++++++++++++++++++-----------
- 3 files changed, 30 insertions(+), 22 deletions(-)
+ include/configs/dragonboard410c.h | 18 +++++++++++++++---
+ 2 files changed, 19 insertions(+), 14 deletions(-)
 
-diff --git a/configs/dragonboard410c_defconfig b/configs/dragonboard410c_defconfig
-index 90c145a..02f6bdb 100644
---- a/configs/dragonboard410c_defconfig
-+++ b/configs/dragonboard410c_defconfig
-@@ -37,3 +37,5 @@ CONFIG_USB_EHCI_MSM=y
- CONFIG_USB_ULPI_VIEWPORT=y
- CONFIG_USB_ULPI=y
- CONFIG_USB_STORAGE=y
-+CONFIG_CMD_MD5SUM=y
-+CONFIG_SYS_NO_FLASH=y
 diff --git a/drivers/mmc/sdhci.c b/drivers/mmc/sdhci.c
 index b745977..c94d58d 100644
 --- a/drivers/mmc/sdhci.c
@@ -62,7 +51,7 @@ index b745977..c94d58d 100644
  			start_addr &= ~(SDHCI_DEFAULT_BOUNDARY_SIZE - 1);
  			start_addr += SDHCI_DEFAULT_BOUNDARY_SIZE;
 diff --git a/include/configs/dragonboard410c.h b/include/configs/dragonboard410c.h
-index b97c6c4..890752b 100644
+index b97c6c4..03a9011 100644
 --- a/include/configs/dragonboard410c.h
 +++ b/include/configs/dragonboard410c.h
 @@ -14,6 +14,9 @@
@@ -95,31 +84,7 @@ index b97c6c4..890752b 100644
  	func(DHCP, dhcp, na)
  
  #include <config_distro_bootcmd.h>
-@@ -86,14 +92,15 @@
- "tftp $loadaddr dragonboard/rescue/gpt_both0.bin && "\
- "mmc write $loadaddr 0 43 && " \
- "mmc rescan && "\
--REFLASH(dragonboard/rescue/NON-HLOS.bin, 1)\
--REFLASH(dragonboard/rescue/sbl1.mbn, 2)\
--REFLASH(dragonboard/rescue/rpm.mbn, 3)\
--REFLASH(dragonboard/rescue/tz.mbn, 4)\
--REFLASH(dragonboard/rescue/hyp.mbn, 5)\
--REFLASH(dragonboard/rescue/sec.dat, 6)\
--REFLASH(dragonboard/rescue/emmc_appsboot.mbn, 7)\
--REFLASH(dragonboard/u-boot.img, 8)\
-+REFLASH(dragonboard/rescue/sbl1.mbn, 1)\
-+REFLASH(dragonboard/rescue/rpm.mbn, 2)\
-+REFLASH(dragonboard/rescue/tz.mbn, 3)\
-+REFLASH(dragonboard/rescue/hyp.mbn, 4)\
-+REFLASH(dragonboard/rescue/sec.dat, 5)\
-+REFLASH(dragonboard/rescue/emmc_appsboot.mbn, 6)\
-+REFLASH(dragonboard/u-boot.img, 7)\
-+REFLASH(dragonboard/system-boot.img, 8)\
-+REFLASH(dragonboard/writable.img, 9)\
- "usb stop &&"\
- "echo Reflash completed"
- 
-@@ -112,9 +119,15 @@ REFLASH(dragonboard/u-boot.img, 8)\
+@@ -112,9 +118,15 @@ REFLASH(dragonboard/u-boot.img, 8)\
  	"pxefile_addr_r=0x90100000\0"\
  	BOOTENV
  

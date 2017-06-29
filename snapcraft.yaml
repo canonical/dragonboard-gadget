@@ -12,3 +12,79 @@ parts:
     prebuilt:
         plugin: dump
         source: prebuilt
+
+    u-boot-sd:
+        plugin: uboot
+        source: git://git.denx.de/u-boot.git
+        source-branch: v2017.05
+        kdefconfig: [dragonboard410c_defconfig]
+        kconfigs:
+            - CONFIG_CMD_MD5SUM=y
+            - CONFIG_SYS_NO_FLASH=y
+        target-arch: arm
+        build-packages: [device-tree-compiler, libfdt-dev, python, curl]
+        prepare: |
+            git am --3way ../../../sd_u-boot.patch
+            git clone git://codeaurora.org/quic/kernel/skales
+        install: |
+            skales/dtbTool -o u-boot-dt.img -s 2048 arch/arm/dts/
+            touch u-boot-ramdisk.img
+            skales/mkbootimg --kernel=u-boot.bin \
+                             --output=$SNAPCRAFT_PART_INSTALL/sd_u-boot.img \
+                             --dt=u-boot-dt.img \
+                             --pagesize 2048 \
+                             --base 0x80000000 \
+                             --ramdisk=u-boot-ramdisk.img \
+                             --cmdline=""
+            tools/mkenvimage -r -s 131072  -o $SNAPCRAFT_PART_INSTALL/sd_uboot.env ../../../sd_uboot.env.in
+            ln -s sd_uboot.env $SNAPCRAFT_PART_INSTALL/uboot.conf
+
+    u-boot-emmc:
+        plugin: uboot
+        source: git://git.denx.de/u-boot.git
+        source-branch: v2017.05
+        kdefconfig: [dragonboard410c_defconfig]
+        kconfigs:
+            - CONFIG_CMD_MD5SUM=y
+            - CONFIG_SYS_NO_FLASH=y
+        target-arch: arm
+        build-packages: [device-tree-compiler, libfdt-dev, python, curl]
+        prepare: |
+            git am --3way ../../../emmc_u-boot.patch
+            git clone git://codeaurora.org/quic/kernel/skales
+        install: |
+            skales/dtbTool -o u-boot-dt.img -s 2048 arch/arm/dts/
+            touch u-boot-ramdisk.img
+            skales/mkbootimg --kernel=u-boot.bin \
+                             --output=$SNAPCRAFT_PART_INSTALL/emmc_u-boot.img \
+                             --dt=u-boot-dt.img \
+                             --pagesize 2048 \
+                             --base 0x80000000 \
+                             --ramdisk=u-boot-ramdisk.img \
+                             --cmdline=""
+            tools/mkenvimage -r -s 131072  -o $SNAPCRAFT_PART_INSTALL/emmc_uboot.env ../../../emmc_uboot.env.in
+
+    sd-build-blobs:
+        plugin: dump
+        source: http://builds.96boards.org/releases/dragonboard410c/linaro/rescue/17.04/dragonboard410c_bootloader_sd_linux-79.zip
+        source-type: zip
+        prepare: |
+            mv emmc_appsboot.mbn sd_appsboot.mbn
+            mv sbl1.mbn sd_sbl1.mbn
+        stage:
+            - -MD5SUMS.txt
+            - -NON-HLOS.bin
+
+    emmc-build-blobs:
+        plugin: dump
+        source: http://builds.96boards.org/releases/dragonboard410c/linaro/rescue/17.04/dragonboard410c_bootloader_emmc_linux-79.zip
+        source-type: zip
+        stage:
+            - -MD5SUMS.txt
+            - -NON-HLOS.bin
+            - -flashall
+            - -gpt_both0.bin
+            - -sbc_*.bin
+            - -rpm.mbn
+            - -tz.mbn
+            - -hyp.mbn
