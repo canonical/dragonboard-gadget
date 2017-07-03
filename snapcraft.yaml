@@ -36,8 +36,8 @@ parts:
                              --base 0x80000000 \
                              --ramdisk=u-boot-ramdisk.img \
                              --cmdline=""
-            tools/mkenvimage -r -s 131072  -o $SNAPCRAFT_PART_INSTALL/sd_uboot.env ../../../sd_uboot.env.in
-            ln -s sd_uboot.env $SNAPCRAFT_PART_INSTALL/uboot.conf
+            tools/mkenvimage -r -s 131072  -o $SNAPCRAFT_PART_INSTALL/uboot.env ../../../uboot.env.in
+            ln -s uboot.env $SNAPCRAFT_PART_INSTALL/uboot.conf
 
     u-boot-emmc:
         plugin: uboot
@@ -62,7 +62,6 @@ parts:
                              --base 0x80000000 \
                              --ramdisk=u-boot-ramdisk.img \
                              --cmdline=""
-            tools/mkenvimage -r -s 131072  -o $SNAPCRAFT_PART_INSTALL/emmc_uboot.env ../../../emmc_uboot.env.in
 
     sd-build-blobs:
         plugin: dump
