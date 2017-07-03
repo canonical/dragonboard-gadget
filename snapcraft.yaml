@@ -12,6 +12,8 @@ parts:
     prebuilt:
         plugin: dump
         source: prebuilt
+        organize:
+            '*': blobs/
 
     u-boot-sd:
         plugin: uboot
@@ -55,8 +57,9 @@ parts:
         install: |
             skales/dtbTool -o u-boot-dt.img -s 2048 arch/arm/dts/
             touch u-boot-ramdisk.img
+            mkdir -p $SNAPCRAFT_PART_INSTALL/blobs
             skales/mkbootimg --kernel=u-boot.bin \
-                             --output=$SNAPCRAFT_PART_INSTALL/emmc_u-boot.img \
+                             --output=$SNAPCRAFT_PART_INSTALL/blobs/emmc_u-boot.img \
                              --dt=u-boot-dt.img \
                              --pagesize 2048 \
                              --base 0x80000000 \
@@ -69,10 +72,14 @@ parts:
         source-type: zip
         prepare: |
             mv emmc_appsboot.mbn sd_appsboot.mbn
-            mv sbl1.mbn sd_sbl1.mbn
         stage:
             - -MD5SUMS.txt
             - -NON-HLOS.bin
+        organize:
+            sbl1.mbn: blobs/sbl1.mbn
+            tz.mbn:   blobs/tz.mbn
+            rpm.mbn:  blobs/rpm.mbn
+            hyp.mbn:  blobs/hyp.mbn
 
     emmc-build-blobs:
         plugin: dump
@@ -83,10 +90,13 @@ parts:
             - -NON-HLOS.bin
             - -flashall
             - -gpt_both0.bin
-            - -sbc_*.bin
-            - -rpm.mbn
-            - -tz.mbn
             - -hyp.mbn
+            - -rpm.mbn
+            - -sbl1.mbn
+            - -sbc_*.bin
+            - -tz.mbn
+        organize:
+            emmc_appsboot.mbn: blobs/emmc_appsboot.mbn
 
     emmc-gpt-partition:
         plugin: dump

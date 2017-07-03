@@ -8,27 +8,27 @@ volumes:
       - name: sbl1
         size: 1048576
         content:
-            - image: sd_sbl1.mbn
+            - image: blobs/sbl1.mbn
         type: DEA0BA2C-CBDD-4805-B4F9-F428251C3E98
       - name: rpm
         size: 1048576
         content:
-            - image: rpm.mbn
+            - image: blobs/rpm.mbn
         type: 098DF793-D712-413D-9D4E-89D711772228
       - name: tz
         size: 1048576
         content:
-            - image: tz.mbn
+            - image: blobs/tz.mbn
         type: A053AA7F-40B8-4B1C-BA08-2F68AC71A4F4
       - name: hyp
         size: 1048576
         content:
-            - image: hyp.mbn
+            - image: blobs/hyp.mbn
         type: E1A6A689-0C8D-4CC6-B4E8-55A4320FBD8A
       - name: sec
         size: 1048576
         content:
-            - image: sec.dat
+            - image: blobs/sec.dat
         type: 303E6AC3-AF15-4C54-9E9B-D9A8FBECF401
       - name: aboot
         size: 2097152
@@ -45,3 +45,6 @@ volumes:
         filesystem: vfat
         filesystem-label: system-boot
         size: 128M
+        content:
+          - source: blobs/
+            target: blobs/
