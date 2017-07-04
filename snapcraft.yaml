@@ -88,3 +88,14 @@ parts:
             - -rpm.mbn
             - -tz.mbn
             - -hyp.mbn
+
+    emmc-gpt-partition:
+        plugin: dump
+        source: https://git.linaro.org/landing-teams/working/qualcomm/db-boot-tools.git
+        build-packages: [gdisk, fakeroot]
+        build: |
+            mkdir -p $SNAPCRAFT_PART_INSTALL/blobs
+            fakeroot ./mksdcard -g -o sd.img -p ../../../emmc-partitions.txt
+            fakeroot sgdisk -bgpt.bin sd.img
+            fakeroot ./mkgpt -i gpt.bin -o $SNAPCRAFT_PART_INSTALL/blobs/gpt_both0.bin
+            rm -rf *
