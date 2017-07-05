@@ -32,3 +32,15 @@ published into the snap store to the edge channel.
 
 You can find build history and other controls here:
 https://code.launchpad.net/~canonical-foundations/+snap/dragonboard
+
+## Booting Ubuntu Core from emmc
+
+Ubuntu Core can be flashed from the SD card image using u-boot to the internal eMMC. This is supported only on the first boot before the main writable partition is resized.
+- Connect the serial console
+- During the first boot, interupt auto boot at u-boot stage by hitting any key
+- run:
+```
+dragonboard410c => run reflash_ubuntu
+```
+- Make sure there is no error during flashing.
+- Remove SD card and reboot device
