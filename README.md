@@ -19,7 +19,7 @@ projects better than what is available with Github issues.
 
 ## Building
 
-To build the gadget snap locally please use `snapcraft`.
+To build the gadget snap locally please use `snapcraft --target-arch=arm64`.
 
 ## Launchpad Mirror and Automatic Builds.
 
@@ -33,11 +33,14 @@ published into the snap store to the edge channel.
 You can find build history and other controls here:
 https://code.launchpad.net/~canonical-foundations/+snap/dragonboard
 
-## Old content
+## Booting Ubuntu Core from emmc
 
-This used to be in the old README file, it will be phased out over time
-
+Ubuntu Core can be flashed from the SD card image using u-boot to the internal eMMC. This is supported only on the first boot before the main writable partition is resized.
+- Connect the serial console
+- During the first boot, interupt auto boot at u-boot stage by hitting any key
+- run:
 ```
-uboot.env is created from uboot.env.in via:
-$ mkenvimage -r -s 131072  -o uboot.env uboot.env.in
+dragonboard410c => run reflash_ubuntu
 ```
+- Make sure there is no error during flashing.
+- Remove SD card and reboot device

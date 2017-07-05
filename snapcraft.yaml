@@ -12,3 +12,99 @@ parts:
     prebuilt:
         plugin: dump
         source: prebuilt
+        organize:
+            '*': blobs/
+
+    u-boot-sd:
+        plugin: uboot
+        source: git://git.denx.de/u-boot.git
+        source-branch: v2017.05
+        kdefconfig: [dragonboard410c_defconfig]
+        kconfigs:
+            - CONFIG_CMD_MD5SUM=y
+            - CONFIG_SYS_NO_FLASH=y
+        target-arch: arm
+        build-packages: [device-tree-compiler, libfdt-dev, python, curl]
+        prepare: |
+            git am --3way ../../../sd_u-boot.patch
+            git clone git://codeaurora.org/quic/kernel/skales
+        install: |
+            skales/dtbTool -o u-boot-dt.img -s 2048 arch/arm/dts/
+            touch u-boot-ramdisk.img
+            skales/mkbootimg --kernel=u-boot.bin \
+                             --output=$SNAPCRAFT_PART_INSTALL/sd_u-boot.img \
+                             --dt=u-boot-dt.img \
+                             --pagesize 2048 \
+                             --base 0x80000000 \
+                             --ramdisk=u-boot-ramdisk.img \
+                             --cmdline=""
+            tools/mkenvimage -r -s 131072  -o $SNAPCRAFT_PART_INSTALL/uboot.env ../../../uboot.env.in
+            ln -s uboot.env $SNAPCRAFT_PART_INSTALL/uboot.conf
+
+    u-boot-emmc:
+        plugin: uboot
+        source: git://git.denx.de/u-boot.git
+        source-branch: v2017.05
+        kdefconfig: [dragonboard410c_defconfig]
+        kconfigs:
+            - CONFIG_CMD_MD5SUM=y
+            - CONFIG_SYS_NO_FLASH=y
+        target-arch: arm
+        build-packages: [device-tree-compiler, libfdt-dev, python, curl]
+        prepare: |
+            git am --3way ../../../emmc_u-boot.patch
+            git clone git://codeaurora.org/quic/kernel/skales
+        install: |
+            skales/dtbTool -o u-boot-dt.img -s 2048 arch/arm/dts/
+            touch u-boot-ramdisk.img
+            mkdir -p $SNAPCRAFT_PART_INSTALL/blobs
+            skales/mkbootimg --kernel=u-boot.bin \
+                             --output=$SNAPCRAFT_PART_INSTALL/blobs/emmc_u-boot.img \
+                             --dt=u-boot-dt.img \
+                             --pagesize 2048 \
+                             --base 0x80000000 \
+                             --ramdisk=u-boot-ramdisk.img \
+                             --cmdline=""
+
+    sd-build-blobs:
+        plugin: dump
+        source: http://builds.96boards.org/releases/dragonboard410c/linaro/rescue/17.04/dragonboard410c_bootloader_sd_linux-79.zip
+        source-type: zip
+        prepare: |
+            mv emmc_appsboot.mbn sd_appsboot.mbn
+        stage:
+            - -MD5SUMS.txt
+            - -NON-HLOS.bin
+        organize:
+            sbl1.mbn: blobs/sbl1.mbn
+            tz.mbn:   blobs/tz.mbn
+            rpm.mbn:  blobs/rpm.mbn
+            hyp.mbn:  blobs/hyp.mbn
+
+    emmc-build-blobs:
+        plugin: dump
+        source: http://builds.96boards.org/releases/dragonboard410c/linaro/rescue/17.04/dragonboard410c_bootloader_emmc_linux-79.zip
+        source-type: zip
+        stage:
+            - -MD5SUMS.txt
+            - -NON-HLOS.bin
+            - -flashall
+            - -gpt_both0.bin
+            - -hyp.mbn
+            - -rpm.mbn
+            - -sbl1.mbn
+            - -sbc_*.bin
+            - -tz.mbn
+        organize:
+            emmc_appsboot.mbn: blobs/emmc_appsboot.mbn
+
+    emmc-gpt-partition:
+        plugin: dump
+        source: https://git.linaro.org/landing-teams/working/qualcomm/db-boot-tools.git
+        build-packages: [gdisk, fakeroot]
+        build: |
+            mkdir -p $SNAPCRAFT_PART_INSTALL/blobs
+            fakeroot ./mksdcard -g -o sd.img -p ../../../emmc-partitions.txt
+            fakeroot sgdisk -bgpt.bin sd.img
+            fakeroot ./mkgpt -i gpt.bin -o $SNAPCRAFT_PART_INSTALL/blobs/gpt_both0.bin
+            rm -rf *
