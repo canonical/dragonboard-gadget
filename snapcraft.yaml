@@ -108,3 +108,98 @@ parts:
             fakeroot sgdisk -bgpt.bin sd.img
             fakeroot ./mkgpt -i gpt.bin -o $SNAPCRAFT_PART_INSTALL/blobs/gpt_both0.bin
             rm -rf *
+
+slots:
+  ttyS0:
+    interface: serial-port
+    path: /dev/ttyS0
+  ttyS1:
+    interface: serial-port
+    path: /dev/ttyS1
+  ttyS2:
+    interface: serial-port
+    path: /dev/ttyS2
+  ttyS3:
+    interface: serial-port
+    path: /dev/ttyS3
+  ttyS4:
+    interface: serial-port
+    path: /dev/ttyS4
+  ttyS5:
+    interface: serial-port
+    path: /dev/ttyS5
+  ttyS6:
+    interface: serial-port
+    path: /dev/ttyS6
+  ttyS7:
+    interface: serial-port
+    path: /dev/ttyS7
+  ttyS8:
+    interface: serial-port
+    path: /dev/ttyS8
+  ttyS9:
+    interface: serial-port
+    path: /dev/ttyS9
+  ttyS10:
+    interface: serial-port
+    path: /dev/ttyS10
+  ttyS11:
+    interface: serial-port
+    path: /dev/ttyS11
+  ttyS12:
+    interface: serial-port
+    path: /dev/ttyS12
+  ttyS13:
+    interface: serial-port
+    path: /dev/ttyS13
+  ttyS14:
+    interface: serial-port
+    path: /dev/ttyS14
+  ttyS15:
+    interface: serial-port
+    path: /dev/ttyS15
+  ttyS16:
+    interface: serial-port
+    path: /dev/ttyS16
+  ttyS17:
+    interface: serial-port
+    path: /dev/ttyS17
+  ttyS18:
+    interface: serial-port
+    path: /dev/ttyS18
+  ttyS19:
+    interface: serial-port
+    path: /dev/ttyS19
+  ttyS20:
+    interface: serial-port
+    path: /dev/ttyS20
+  ttyS21:
+    interface: serial-port
+    path: /dev/ttyS21
+  ttyS22:
+    interface: serial-port
+    path: /dev/ttyS22
+  ttyS23:
+    interface: serial-port
+    path: /dev/ttyS23
+  ttyS24:
+    interface: serial-port
+    path: /dev/ttyS24
+  ttyS25:
+    interface: serial-port
+    path: /dev/ttyS25
+  ttyS26:
+    interface: serial-port
+    path: /dev/ttyS26
+  ttyS27:
+    interface: serial-port
+    path: /dev/ttyS27
+  ttyS28:
+    interface: serial-port
+    path: /dev/ttyS28
+  ttyS29:
+    interface: serial-port
+    path: /dev/ttyS29
+  ttyS30:
+    interface: serial-port
+    path: /dev/ttyS30
