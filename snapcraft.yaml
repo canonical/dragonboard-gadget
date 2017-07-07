@@ -215,3 +215,369 @@ slots:
   i2c-3:
     interface: i2c
     path: /dev/i2c-3
+  gpio-0:
+    interface: gpio
+    number: 0
+  gpio-1:
+    interface: gpio
+    number: 1
+  gpio-2:
+    interface: gpio
+    number: 2
+  gpio-3:
+    interface: gpio
+    number: 3
+  gpio-4:
+    interface: gpio
+    number: 4
+  gpio-5:
+    interface: gpio
+    number: 5
+  gpio-6:
+    interface: gpio
+    number: 6
+  gpio-7:
+    interface: gpio
+    number: 7
+  gpio-8:
+    interface: gpio
+    number: 8
+  gpio-9:
+    interface: gpio
+    number: 9
+  gpio-10:
+    interface: gpio
+    number: 10
+  gpio-11:
+    interface: gpio
+    number: 11
+  gpio-12:
+    interface: gpio
+    number: 12
+  gpio-13:
+    interface: gpio
+    number: 13
+  gpio-14:
+    interface: gpio
+    number: 14
+  gpio-15:
+    interface: gpio
+    number: 15
+  gpio-16:
+    interface: gpio
+    number: 16
+  gpio-17:
+    interface: gpio
+    number: 17
+  gpio-18:
+    interface: gpio
+    number: 18
+  gpio-19:
+    interface: gpio
+    number: 19
+  gpio-20:
+    interface: gpio
+    number: 20
+  gpio-21:
+    interface: gpio
+    number: 21
+  gpio-22:
+    interface: gpio
+    number: 22
+  gpio-23:
+    interface: gpio
+    number: 23
+  gpio-24:
+    interface: gpio
+    number: 24
+  gpio-25:
+    interface: gpio
+    number: 25
+  gpio-26:
+    interface: gpio
+    number: 26
+  gpio-27:
+    interface: gpio
+    number: 27
+  gpio-28:
+    interface: gpio
+    number: 28
+  gpio-29:
+    interface: gpio
+    number: 29
+  gpio-30:
+    interface: gpio
+    number: 30
+  gpio-31:
+    interface: gpio
+    number: 31
+  gpio-32:
+    interface: gpio
+    number: 32
+  gpio-33:
+    interface: gpio
+    number: 33
+  gpio-34:
+    interface: gpio
+    number: 34
+  gpio-35:
+    interface: gpio
+    number: 35
+  gpio-36:
+    interface: gpio
+    number: 36
+  gpio-37:
+    interface: gpio
+    number: 37
+  gpio-38:
+    interface: gpio
+    number: 38
+  gpio-39:
+    interface: gpio
+    number: 39
+  gpio-40:
+    interface: gpio
+    number: 40
+  gpio-41:
+    interface: gpio
+    number: 41
+  gpio-42:
+    interface: gpio
+    number: 42
+  gpio-43:
+    interface: gpio
+    number: 43
+  gpio-44:
+    interface: gpio
+    number: 44
+  gpio-45:
+    interface: gpio
+    number: 45
+  gpio-46:
+    interface: gpio
+    number: 46
+  gpio-47:
+    interface: gpio
+    number: 47
+  gpio-48:
+    interface: gpio
+    number: 48
+  gpio-49:
+    interface: gpio
+    number: 49
+  gpio-50:
+    interface: gpio
+    number: 50
+  gpio-51:
+    interface: gpio
+    number: 51
+  gpio-52:
+    interface: gpio
+    number: 52
+  gpio-53:
+    interface: gpio
+    number: 53
+  gpio-54:
+    interface: gpio
+    number: 54
+  gpio-55:
+    interface: gpio
+    number: 55
+  gpio-56:
+    interface: gpio
+    number: 56
+  gpio-57:
+    interface: gpio
+    number: 57
+  gpio-58:
+    interface: gpio
+    number: 58
+  gpio-59:
+    interface: gpio
+    number: 59
+  gpio-60:
+    interface: gpio
+    number: 60
+  gpio-61:
+    interface: gpio
+    number: 61
+  gpio-62:
+    interface: gpio
+    number: 62
+  gpio-63:
+    interface: gpio
+    number: 63
+  gpio-64:
+    interface: gpio
+    number: 64
+  gpio-65:
+    interface: gpio
+    number: 65
+  gpio-66:
+    interface: gpio
+    number: 66
+  gpio-67:
+    interface: gpio
+    number: 67
+  gpio-68:
+    interface: gpio
+    number: 68
+  gpio-69:
+    interface: gpio
+    number: 69
+  gpio-70:
+    interface: gpio
+    number: 70
+  gpio-71:
+    interface: gpio
+    number: 71
+  gpio-72:
+    interface: gpio
+    number: 72
+  gpio-73:
+    interface: gpio
+    number: 73
+  gpio-74:
+    interface: gpio
+    number: 74
+  gpio-75:
+    interface: gpio
+    number: 75
+  gpio-76:
+    interface: gpio
+    number: 76
+  gpio-77:
+    interface: gpio
+    number: 77
+  gpio-78:
+    interface: gpio
+    number: 78
+  gpio-79:
+    interface: gpio
+    number: 79
+  gpio-80:
+    interface: gpio
+    number: 80
+  gpio-81:
+    interface: gpio
+    number: 81
+  gpio-82:
+    interface: gpio
+    number: 82
+  gpio-83:
+    interface: gpio
+    number: 83
+  gpio-84:
+    interface: gpio
+    number: 84
+  gpio-85:
+    interface: gpio
+    number: 85
+  gpio-86:
+    interface: gpio
+    number: 86
+  gpio-87:
+    interface: gpio
+    number: 87
+  gpio-88:
+    interface: gpio
+    number: 88
+  gpio-89:
+    interface: gpio
+    number: 89
+  gpio-90:
+    interface: gpio
+    number: 90
+  gpio-91:
+    interface: gpio
+    number: 91
+  gpio-92:
+    interface: gpio
+    number: 92
+  gpio-93:
+    interface: gpio
+    number: 93
+  gpio-94:
+    interface: gpio
+    number: 94
+  gpio-95:
+    interface: gpio
+    number: 95
+  gpio-96:
+    interface: gpio
+    number: 96
+  gpio-97:
+    interface: gpio
+    number: 97
+  gpio-98:
+    interface: gpio
+    number: 98
+  gpio-99:
+    interface: gpio
+    number: 99
+  gpio-100:
+    interface: gpio
+    number: 100
+  gpio-101:
+    interface: gpio
+    number: 101
+  gpio-102:
+    interface: gpio
+    number: 102
+  gpio-103:
+    interface: gpio
+    number: 103
+  gpio-104:
+    interface: gpio
+    number: 104
+  gpio-105:
+    interface: gpio
+    number: 105
+  gpio-106:
+    interface: gpio
+    number: 106
+  gpio-107:
+    interface: gpio
+    number: 107
+  gpio-108:
+    interface: gpio
+    number: 108
+  gpio-109:
+    interface: gpio
+    number: 109
+  gpio-110:
+    interface: gpio
+    number: 110
+  gpio-111:
+    interface: gpio
+    number: 111
+  gpio-112:
+    interface: gpio
+    number: 112
+  gpio-113:
+    interface: gpio
+    number: 113
+  gpio-114:
+    interface: gpio
+    number: 114
+  gpio-115:
+    interface: gpio
+    number: 115
+  gpio-116:
+    interface: gpio
+    number: 116
+  gpio-117:
+    interface: gpio
+    number: 117
+  gpio-118:
+    interface: gpio
+    number: 118
+  gpio-119:
+    interface: gpio
+    number: 119
+  gpio-120:
+    interface: gpio
+    number: 120
+  gpio-121:
+    interface: gpio
+    number: 121
