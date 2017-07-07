@@ -203,3 +203,6 @@ slots:
   ttyS30:
     interface: serial-port
     path: /dev/ttyS30
+  ttyS31:
+    interface: serial-port
+    path: /dev/ttyS31
