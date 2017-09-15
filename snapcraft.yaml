@@ -32,8 +32,9 @@ parts:
         install: |
             skales/dtbTool -o u-boot-dt.img -s 2048 arch/arm/dts/
             touch u-boot-ramdisk.img
+            mkdir -p $SNAPCRAFT_PART_INSTALL/blobs
             skales/mkbootimg --kernel=u-boot.bin \
-                             --output=$SNAPCRAFT_PART_INSTALL/sd_u-boot.img \
+                             --output=$SNAPCRAFT_PART_INSTALL/blobs/sd_u-boot.img \
                              --dt=u-boot-dt.img \
                              --pagesize 2048 \
                              --base 0x80000000 \
@@ -78,10 +79,11 @@ parts:
             - -MD5SUMS.txt
             - -NON-HLOS.bin
         organize:
-            sbl1.mbn: blobs/sbl1.mbn
-            tz.mbn:   blobs/tz.mbn
-            rpm.mbn:  blobs/rpm.mbn
-            hyp.mbn:  blobs/hyp.mbn
+            sbl1.mbn:        blobs/sbl1.mbn
+            tz.mbn:          blobs/tz.mbn
+            rpm.mbn:         blobs/rpm.mbn
+            hyp.mbn:         blobs/hyp.mbn
+            sd_appsboot.mbn: blobs/sd_appsboot.mbn
 
     emmc-build-blobs:
         plugin: dump
