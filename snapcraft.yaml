@@ -106,7 +106,18 @@ parts:
         build-packages: [gdisk, fakeroot]
         build: |
             mkdir -p $SNAPCRAFT_PART_INSTALL/blobs
-            fakeroot ./mksdcard -g -o sd.img -p ../../../emmc-partitions.txt
+            cp ../../../emmc-partitions.txt .
+            sizes=$(grep -e 'size' ../../../gadget.yaml | awk -F ": " '{ print $2}')
+            for name in $(grep -e 'name' ../../../gadget.yaml | awk -F ": " '{ print $2}'); do
+                set $sizes; size=$1; shift; sizes="$*";
+                case $size in
+                    (*M) size=$(expr $(echo $size | sed 's/M//g') \* 1024) ;;
+                    (*K) size=$(echo $size | sed 's/K//g');;
+                    (*) size=$(expr $size / 1024);;
+                esac;
+                sed -i 's/,'"${name}"'-size,/,'"${size}"',/g' emmc-partitions.txt;
+            done
+            fakeroot ./mksdcard -g -o sd.img -p emmc-partitions.txt
             fakeroot sgdisk -bgpt.bin sd.img
             fakeroot ./mkgpt -i gpt.bin -o $SNAPCRAFT_PART_INSTALL/blobs/gpt_both0.bin
             rm -rf *
