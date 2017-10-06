@@ -26,8 +26,8 @@ parts:
         target-arch: arm
         build-packages: [device-tree-compiler, libfdt-dev, python, curl]
         prepare: |
-            git am --3way ../../../u-boot-generic*.patch
-            git am --3way ../../../u-boot-sd*.patch
+            git apply ../../../u-boot-generic*.patch
+            git apply ../../../u-boot-sd*.patch
             git clone git://codeaurora.org/quic/kernel/skales
         install: |
             skales/dtbTool -o u-boot-dt.img -s 2048 arch/arm/dts/
@@ -54,8 +54,8 @@ parts:
         target-arch: arm
         build-packages: [device-tree-compiler, libfdt-dev, python, curl]
         prepare: |
-            git am --3way ../../../u-boot-generic*.patch
-            git am --3way ../../../u-boot-emmc*.patch
+            git apply ../../../u-boot-generic*.patch
+            git apply ../../../u-boot-emmc*.patch
             git clone git://codeaurora.org/quic/kernel/skales
         install: |
             skales/dtbTool -o u-boot-dt.img -s 2048 arch/arm/dts/
