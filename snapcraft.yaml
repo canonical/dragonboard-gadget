@@ -25,8 +25,8 @@ parts:
             - CONFIG_CMD_MD5SUM=y
             - CONFIG_SYS_NO_FLASH=y
         target-arch: arm
-        build-packages: [device-tree-compiler, libfdt-dev, python, curl]
-        override-build: |
+        build-packages: [device-tree-compiler, libfdt-dev, python, curl, libssl-dev]
+        prepare: |
             git apply ../../../u-boot-generic*.patch
             git apply ../../../u-boot-sd*.patch
             git clone git://codeaurora.org/quic/kernel/skales
@@ -53,8 +53,8 @@ parts:
             - CONFIG_CMD_MD5SUM=y
             - CONFIG_SYS_NO_FLASH=y
         target-arch: arm
-        build-packages: [device-tree-compiler, libfdt-dev, python, curl]
-        override-build: |
+        build-packages: [device-tree-compiler, libfdt-dev, python, curl, libssl-dev]
+        prepare: |
             git apply ../../../u-boot-generic*.patch
             git apply ../../../u-boot-emmc*.patch
             git clone git://codeaurora.org/quic/kernel/skales
