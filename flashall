@@ -3,15 +3,16 @@
 fastboot flash partition gpt_both0.bin
 fastboot flash hyp hyp.mbn
 fastboot flash rpm rpm.mbn
-fastboot flash sbl1 sbl1.mbn
+fastboot flash sbl1 sbl1_emmc.mbn
 fastboot flash tz tz.mbn
 fastboot flash sec sec.dat
+fastboot flash cdt sbc_1.0_8016.bin
 fastboot flash aboot emmc_appsboot.mbn
 
 fastboot erase boot
 fastboot erase system-boot
 fastboot erase writable
 
-fastboot flash boot u-boot.img
+fastboot flash boot emmc_fastboot_u-boot.img
 fastboot flash system-boot system-boot.img
 fastboot flash writable writable.img

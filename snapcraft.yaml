@@ -72,37 +72,29 @@ parts:
 
     sd-build-blobs:
         plugin: dump
-        source: http://builds.96boards.org/releases/dragonboard410c/linaro/rescue/17.04/dragonboard410c_bootloader_sd_linux-79.zip
+        source: https://releases.linaro.org/96boards/dragonboard410c/linaro/rescue/17.09/dragonboard410c_bootloader_sd_linux-88.zip
         source-type: zip
-        override-build: |
-            mv emmc_appsboot.mbn sd_appsboot.mbn
-            snapcraftctl build
-        stage:
-            - -MD5SUMS.txt
-            - -NON-HLOS.bin
         organize:
-            sbl1.mbn:        blobs/sbl1.mbn
-            tz.mbn:          blobs/tz.mbn
-            rpm.mbn:         blobs/rpm.mbn
-            hyp.mbn:         blobs/hyp.mbn
-            sd_appsboot.mbn: blobs/sd_appsboot.mbn
+             emmc_appsboot.mbn: sd_appsboot.mbn
+             '*.*': blobs/
+        stage:
+            - -blobs/MD5SUMS.txt
+            - -blobs/NON-HLOS.bin
+            - -blobs/flashall
+            - -blobs/gpt_both0.bin
 
     emmc-build-blobs:
         plugin: dump
-        source: http://builds.96boards.org/releases/dragonboard410c/linaro/rescue/17.04/dragonboard410c_bootloader_emmc_linux-79.zip
+        source: https://releases.linaro.org/96boards/dragonboard410c/linaro/rescue/17.09/dragonboard410c_bootloader_emmc_linux-88.zip
         source-type: zip
-        stage:
-            - -MD5SUMS.txt
-            - -NON-HLOS.bin
-            - -flashall
-            - -gpt_both0.bin
-            - -hyp.mbn
-            - -rpm.mbn
-            - -sbl1.mbn
-            - -sbc_*.bin
-            - -tz.mbn
         organize:
-            emmc_appsboot.mbn: blobs/emmc_appsboot.mbn
+             sbl1.mbn: sbl1_emmc.mbn
+             '*.*': blobs/
+        stage:
+            - -blobs/MD5SUMS.txt
+            - -blobs/NON-HLOS.bin
+            - -blobs/flashall
+            - -blobs/gpt_both0.bin
 
     emmc-gpt-partition:
         plugin: dump
