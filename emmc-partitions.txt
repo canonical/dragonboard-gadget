@@ -1,5 +1,6 @@
 #name,size,align,type,format,file
 ,1024,,,,
+cdt,2,,A19F205F-CCD8-4B6D-8F1E-2D9BC24CFFB1,,sbc_1.0_8016.bin
 sbl1,sbl1-size,,DEA0BA2C-CBDD-4805-B4F9-F428251C3E98,,sbl1.mbn
 rpm,rpm-size,,098DF793-D712-413D-9D4E-89D711772228,,rpm.mbn
 tz,tz-size,,A053AA7F-40B8-4B1C-BA08-2F68AC71A4F4,,tz.mbn
