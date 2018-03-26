@@ -44,6 +44,32 @@ parts:
             tools/mkenvimage -r -s 131072  -o $SNAPCRAFT_PART_INSTALL/uboot.env ../../../uboot.env.in
             ln -s uboot.env $SNAPCRAFT_PART_INSTALL/uboot.conf
 
+    u-boot-emmc-sd:
+        plugin: uboot
+        source: git://git.denx.de/u-boot.git
+        source-branch: v2017.05
+        kdefconfig: [dragonboard410c_defconfig]
+        kconfigs:
+            - CONFIG_CMD_MD5SUM=y
+            - CONFIG_SYS_NO_FLASH=y
+        target-arch: arm
+        build-packages: [device-tree-compiler, libfdt-dev, python, curl, libssl-dev]
+        prepare: |
+            git apply ../../../u-boot-generic*.patch
+            git apply ../../../u-boot-emmc_sd-*.patch
+            git clone git://codeaurora.org/quic/kernel/skales
+        install: |
+            skales/dtbTool -o u-boot-dt.img -s 2048 arch/arm/dts/
+            touch u-boot-ramdisk.img
+            mkdir -p $SNAPCRAFT_PART_INSTALL/blobs
+            skales/mkbootimg --kernel=u-boot.bin \
+                             --output=$SNAPCRAFT_PART_INSTALL/blobs/emmc-sd_u-boot.img \
+                             --dt=u-boot-dt.img \
+                             --pagesize 2048 \
+                             --base 0x80000000 \
+                             --ramdisk=u-boot-ramdisk.img \
+                             --cmdline=""
+
     u-boot-emmc:
         plugin: uboot
         source: git://git.denx.de/u-boot.git
@@ -56,7 +82,7 @@ parts:
         build-packages: [device-tree-compiler, libfdt-dev, python, curl, libssl-dev]
         prepare: |
             git apply ../../../u-boot-generic*.patch
-            git apply ../../../u-boot-emmc*.patch
+            git apply ../../../u-boot-emmc-*.patch
             git clone git://codeaurora.org/quic/kernel/skales
             snapcraftctl build
             skales/dtbTool -o u-boot-dt.img -s 2048 arch/arm/dts/
@@ -103,6 +129,7 @@ parts:
         override-build: |
             mkdir -p $SNAPCRAFT_PART_INSTALL/blobs
             cp ../../../emmc-partitions.txt .
+            cp ../../../emmc-sd-partitions.txt .
             sizes=$(grep -e 'size' ../../../gadget.yaml | awk -F ": " '{ print $2}')
             for name in $(grep -e '- name:' ../../../gadget.yaml | awk -F ": " '{ print $2}'); do
                 set $sizes; size=$1; shift; sizes="$*";
@@ -112,11 +139,14 @@ parts:
                     (*) size=$(expr $size / 1024);;
                 esac;
                 sed -i 's/,'"${name}"'-size,/,'"${size}"',/g' emmc-partitions.txt;
+                sed -i 's/,'"${name}"'-size,/,'"${size}"',/g' emmc-sd-partitions.txt;
             done
-            fakeroot ./mksdcard -g -o sd.img -p emmc-partitions.txt
-            fakeroot sgdisk -bgpt.bin sd.img
+            fakeroot ./mksdcard -g -o emmc.img -p emmc-partitions.txt
+            fakeroot ./mksdcard -g -o sd.img -p emmc-sd-partitions.txt
+            fakeroot sgdisk -bgpt.bin emmc.img
+            fakeroot sgdisk -bsdgpt.bin sd.img
             fakeroot ./mkgpt -i gpt.bin -o $SNAPCRAFT_PART_INSTALL/blobs/gpt_both0.bin
-            rm -rf *
+            fakeroot ./mkgpt -i sdgpt.bin -o $SNAPCRAFT_PART_INSTALL/blobs/gpt_sd_both0.bin
 
 slots:
   serialtty-0:
