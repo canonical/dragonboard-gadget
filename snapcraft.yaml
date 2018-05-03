@@ -112,7 +112,7 @@ parts:
             mkdir -p $SNAPCRAFT_PART_INSTALL/blobs
             cp ../../../emmc-partitions.txt .
             sizes=$(grep -e 'size' ../../../gadget.yaml | awk -F ": " '{ print $2}')
-            for name in $(grep -e 'name' ../../../gadget.yaml | awk -F ": " '{ print $2}'); do
+            for name in $(grep -e '- name:' ../../../gadget.yaml | awk -F ": " '{ print $2}'); do
                 set $sizes; size=$1; shift; sizes="$*";
                 case $size in
                     (*M) size=$(expr $(echo $size | sed 's/M//g') \* 1024) ;;
