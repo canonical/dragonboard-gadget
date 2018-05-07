@@ -1,5 +1,5 @@
 name: dragonboard
-version: 16.04-0.18
+version: 18.04-0.1
 summary: Dragonboard support package
 description: |
  Support files for booting the 96boards dragonboard
@@ -71,7 +71,7 @@ parts:
 
     sd-build-blobs:
         plugin: dump
-        source: http://builds.96boards.org/releases/dragonboard410c/linaro/rescue/17.04/dragonboard410c_bootloader_sd_linux-79.zip
+        source: http://builds.96boards.org/releases/dragonboard410c/linaro/rescue/17.09/dragonboard410c_bootloader_sd_linux-88.zip
         source-type: zip
         prepare: |
             mv emmc_appsboot.mbn sd_appsboot.mbn
@@ -87,7 +87,7 @@ parts:
 
     emmc-build-blobs:
         plugin: dump
-        source: http://builds.96boards.org/releases/dragonboard410c/linaro/rescue/17.04/dragonboard410c_bootloader_emmc_linux-79.zip
+        source: http://builds.96boards.org/releases/dragonboard410c/linaro/rescue/17.09/dragonboard410c_bootloader_emmc_linux-88.zip
         source-type: zip
         stage:
             - -MD5SUMS.txt
