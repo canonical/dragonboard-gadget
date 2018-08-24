@@ -1,5 +1,5 @@
 device-tree-origin: kernel
-device-tree: apq8016-sbc.dtb
+device-tree: qcom/apq8016-sbc.dtb
 volumes:
   dragonboard:
     schema: gpt
