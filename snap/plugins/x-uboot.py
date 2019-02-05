@@ -39,6 +39,13 @@ class UbootPlugin(kbuild.KBuildPlugin):
             ],
             'default': '',
         }
+        schema['properties']['target-cross-compiler-prefix'] = {
+            'oneOf': [
+                {'type': 'string'},
+                {'type': 'object'},
+            ],
+            'default': '',
+        }
         return schema
 
     @classmethod
@@ -58,16 +65,39 @@ class UbootPlugin(kbuild.KBuildPlugin):
                 self.make_cmd.append('ARCH={}'.format(self.options.target_arch[self.project.deb_arch]))
 
     def enable_cross_compilation(self):
-        logger.info('Cross compiling u-boot target {!r}'.format(
-            self.project.kernel_arch))
+        self._enable_cross_compilation(self.project.kernel_arch)
+
+    def _enable_cross_compilation(self, arch):
+        logger.info('Cross compiling u-boot target {!r}'.format(arch))
         if not any("ARCH=" in s for s in self.make_cmd):
-            self.make_cmd.append('ARCH={}'.format(
-                self.project.kernel_arch))
+            self.make_cmd.append('ARCH={}'.format(arch))
         if 'CROSS_COMPILE' in os.environ:
             toolchain = os.environ['CROSS_COMPILE']
+        elif self.options.target_cross_compiler_prefix:
+            toolchain = self.options.target_cross_compiler_prefix
         else:
             toolchain = self.project.cross_compiler_prefix
         self.make_cmd.append('CROSS_COMPILE={}'.format(toolchain))
 
     def do_install(self):
         logger.info('Skipping install step for u-boot')
+
+    def run(self, cmd):
+        super().run(cmd, cwd=None, env=self._build_environment())
+
+
+    def _build_environment(self):
+        logger.info("kernel target {!r}".format(self.project.kernel_arch))
+        if self.project.kernel_arch == 'x86' and self.options.target_cross_compiler_prefix:
+            logger.info("Fixing kernel arch")
+            self._enable_cross_compilation(self.options.target_arch)
+        env = os.environ.copy()
+        gcc_bin = os.path.join(self.project.stage_dir, "bin")
+
+        if env.get("PATH"):
+            new_path = "{}:{}".format(gcc_bin, env.get("PATH"))
+        else:
+            new_path = gcc_bin
+
+        env["PATH"] = new_path
+        return env
