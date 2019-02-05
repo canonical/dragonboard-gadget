@@ -4,11 +4,16 @@ summary: Dragonboard support package
 description: |
  Support files for booting the 96boards dragonboard
 type: gadget
+
 base: core18
+
 architectures:
-  - arm64
+  - build-on: [amd64, arm64]
+    run-on: arm64
+
 confinement: strict
 grade: stable
+
 parts:
     prebuilt:
         plugin: dump
