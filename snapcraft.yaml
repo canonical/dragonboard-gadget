@@ -69,54 +69,6 @@ parts:
             tools/mkenvimage -r -s 131072  -o $SNAPCRAFT_PART_INSTALL/uboot.env ${SNAPCRAFT_PROJECT_DIR}/uboot.env.in
             ln -s uboot.env $SNAPCRAFT_PART_INSTALL/uboot.conf
 
-    u-boot-emmc-sd:
-        plugin: uboot
-        after:
-            - gcc-linaro-aarch64-6.2
-            - skales
-        source: git://git.denx.de/u-boot.git
-        source-branch: v2019.01
-        kdefconfig: [dragonboard410c_defconfig]
-        kconfigs:
-            - CONFIG_CMD_MD5SUM=y
-            - CONFIG_FAT_WRITE=y
-            - CONFIG_ENV_IS_IN_FAT=y
-            - CONFIG_ENV_IS_IN_MMC=n
-            - CONFIG_ENV_FAT_INTERFACE="mmc"
-            - CONFIG_ENV_FAT_DEVICE_AND_PART="0:8"
-            - CONFIG_ENV_FAT_FILE="uboot.env"
-            - CONFIG_SUPPORT_RAW_INITRD=y
-        target-arch: arm
-        build-packages:
-            - device-tree-compiler
-            - libfdt-dev
-            - python
-            - curl
-            - libssl-dev
-            - bison
-            - flex
-        override-pull: |
-            snapcraftctl pull
-            if ls ${SNAPCRAFT_PROJECT_DIR}/u-boot-generic*.patch 1> /dev/null 2>&1; then
-                git apply ${SNAPCRAFT_PROJECT_DIR}/u-boot-generic*.patch
-            fi
-            if ls ${SNAPCRAFT_PROJECT_DIR}/u-boot-emmc_sd-*.patch 1> /dev/null 2>&1; then
-                git apply ${SNAPCRAFT_PROJECT_DIR}/u-boot-emmc_sd-*.patch
-            fi
-        override-build: |
-            export PATH=${SNAPCRAFT_STAGE}/:${PATH}
-            snapcraftctl build
-            dtbTool -o u-boot-dt.img -s 2048 arch/arm/dts/
-            touch u-boot-ramdisk.img
-            mkdir -p $SNAPCRAFT_PART_INSTALL/blobs
-            mkbootimg --kernel=u-boot.bin \
-                             --output=$SNAPCRAFT_PART_INSTALL/blobs/emmc-sd_u-boot.img \
-                             --dt=u-boot-dt.img \
-                             --pagesize 2048 \
-                             --base 0x80000000 \
-                             --ramdisk=u-boot-ramdisk.img \
-                             --cmdline=""
-
     u-boot-emmc:
         plugin: uboot
         after:
@@ -199,29 +151,33 @@ parts:
 
     emmc-gpt-partition:
         plugin: nil
-        source: https://git.linaro.org/landing-teams/working/qualcomm/db-boot-tools.git
-        build-packages: [gdisk, fakeroot]
+        source: qdl
+        build-packages:
+            - python
         override-build: |
-            mkdir -p $SNAPCRAFT_PART_INSTALL/blobs
-            cp ../../../emmc-partitions.txt .
-            cp ../../../emmc-sd-partitions.txt .
-            sizes=$(grep -e 'size' ../../../gadget.yaml | awk -F ": " '{ print $2}')
-            for name in $(grep -e '- name:' ../../../gadget.yaml | awk -F ": " '{ print $2}'); do
-                set $sizes; size=$1; shift; sizes="$*";
-                case $size in
+            echo "Updating partitions.xml sizes from gadget.yaml"
+            sizes=$(grep -e 'size' ${SNAPCRAFT_PROJECT_DIR}/gadget.yaml | awk -F ": " '{ print $2}')
+            for name in $(grep -e '- name:' ${SNAPCRAFT_PROJECT_DIR}/gadget.yaml | awk -F ": " '{ print $2}'); do
+               set $sizes; size=$1; shift; sizes="$*";
+               case $size in
                     (*M) size=$(expr $(echo $size | sed 's/M//g') \* 1024) ;;
                     (*K) size=$(echo $size | sed 's/K//g');;
                     (*) size=$(expr $size / 1024);;
-                esac;
-                sed -i 's/,'"${name}"'-size,/,'"${size}"',/g' emmc-partitions.txt;
-                sed -i 's/,'"${name}"'-size,/,'"${size}"',/g' emmc-sd-partitions.txt;
+                esac
+                echo "sed -i 's/,${name}-size,/,${size},/g' partitions.xml"
+                echo "sed -i 's/,'"${name}"'-size,/,'"${size}"',/g' partitions.xml;"
+                sed -i 's/\"'"${name}"'-size\"/\"'"${size}"'\"/g' partitions.xml
             done
-            fakeroot ./mksdcard -g -o emmc.img -p emmc-partitions.txt
-            fakeroot ./mksdcard -g -o sd.img -p emmc-sd-partitions.txt
-            fakeroot sgdisk -bgpt.bin emmc.img
-            fakeroot sgdisk -bsdgpt.bin sd.img
-            fakeroot ./mkgpt -i gpt.bin -o $SNAPCRAFT_PART_INSTALL/blobs/gpt_emmc_both0.bin
-            fakeroot ./mkgpt -i sdgpt.bin -o $SNAPCRAFT_PART_INSTALL/blobs/gpt_emmc_sd_both0.bin
+            python ptool.py -x partitions.xml -t ${SNAPCRAFT_PART_INSTALL}/
+        organize:
+             '*': blobs/
+             rawprogram0.xml: rawprogram.xml
+             patch0.xml:      patch.xml
+        stage:
+            - -blobs/wipe_rawprogram*
+            - -blobs/rawprogram0_*
+            - -blobs/gpt_empty*
+
     gcc-linaro-aarch64-6-2:
         plugin: dump
         source: http://releases.linaro.org/components/toolchain/binaries/6.2-2016.11/aarch64-linux-gnu/gcc-linaro-6.2.1-2016.11-x86_64_aarch64-linux-gnu.tar.xz
