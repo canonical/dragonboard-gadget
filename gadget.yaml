@@ -8,7 +8,7 @@ volumes:
       - name: sbl1
         size: 1048576
         content:
-            - image: blobs/sbl1.mbn
+            - image: blobs/sbl1_sd.mbn
         type: DEA0BA2C-CBDD-4805-B4F9-F428251C3E98
       - name: rpm
         size: 1048576
