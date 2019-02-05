@@ -1,9 +1,9 @@
 #!/bin/sh
 
-fastboot flash partition gpt_sd_both0.bin
+fastboot flash partition gpt_emmc_sd_both0.bin
 fastboot flash hyp hyp.mbn
 fastboot flash rpm rpm.mbn
-fastboot flash sbl1 sbl1.mbn
+fastboot flash sbl1 sbl1_sd.mbn
 fastboot flash tz tz.mbn
 fastboot flash sec sec.dat
 fastboot flash aboot emmc_appsboot.mbn
