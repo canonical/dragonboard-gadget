@@ -112,26 +112,31 @@ parts:
         source: https://releases.linaro.org/96boards/dragonboard410c/linaro/rescue/17.09/dragonboard410c_bootloader_sd_linux-88.zip
         source-type: zip
         organize:
-             emmc_appsboot.mbn: sd_appsboot.mbn
-             '*.*': blobs/
+             '*': blobs/
+             'emmc_appsboot.mbn': 'blobs/sd_appsboot.mbn'
+             'sbl1.mbn': 'blobs/sbl1_sd.mbn'
         stage:
             - -blobs/MD5SUMS.txt
             - -blobs/NON-HLOS.bin
-            - -blobs/flashall
-            - -blobs/gpt_both0.bin
+            - -blobs/hyp.mbn
+            - -blobs/tz.mbn
 
     emmc-build-blobs:
         plugin: dump
-        source: https://releases.linaro.org/96boards/dragonboard410c/linaro/rescue/17.09/dragonboard410c_bootloader_emmc_linux-88.zip
+        source: http://releases.linaro.org/96boards/dragonboard410c/linaro/rescue/latest/dragonboard-410c-bootloader-emmc-linux-*.zip
         source-type: zip
         organize:
-             sbl1.mbn: sbl1_emmc.mbn
-             '*.*': blobs/
+             '*/*': blobs/
         stage:
-            - -flashall
+            - -dragonboard-410c*
+            - -blobs/flashall
             - -blobs/MD5SUMS.txt
             - -blobs/NON-HLOS.bin
+            - -blobs/gpt_backup0.bin
             - -blobs/gpt_both0.bin
+            - -blobs/gpt_main0.bin
+            - -blobs/rawprogram.xml
+            - -blobs/patch.xml
 
     emmc-gpt-partition:
         plugin: nil
