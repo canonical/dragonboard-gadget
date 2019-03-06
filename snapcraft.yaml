@@ -1,5 +1,5 @@
 name: dragonboard
-version: 18-1
+version: 18-2
 summary: Dragonboard support package
 description: |
  Support files for booting the 96boards dragonboard
