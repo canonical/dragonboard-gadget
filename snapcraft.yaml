@@ -26,11 +26,11 @@ parts:
             - CONFIG_SYS_NO_FLASH=y
         target-arch: arm
         build-packages: [device-tree-compiler, libfdt-dev, python, curl]
-        prepare: |
+        override-build: |
             git apply ../../../u-boot-generic*.patch
             git apply ../../../u-boot-sd*.patch
             git clone git://codeaurora.org/quic/kernel/skales
-        install: |
+            snapcraftctl build
             skales/dtbTool -o u-boot-dt.img -s 2048 arch/arm/dts/
             touch u-boot-ramdisk.img
             mkdir -p $SNAPCRAFT_PART_INSTALL/blobs
@@ -54,11 +54,11 @@ parts:
             - CONFIG_SYS_NO_FLASH=y
         target-arch: arm
         build-packages: [device-tree-compiler, libfdt-dev, python, curl]
-        prepare: |
+        override-build: |
             git apply ../../../u-boot-generic*.patch
             git apply ../../../u-boot-emmc*.patch
             git clone git://codeaurora.org/quic/kernel/skales
-        install: |
+            snapcraftctl build
             skales/dtbTool -o u-boot-dt.img -s 2048 arch/arm/dts/
             touch u-boot-ramdisk.img
             mkdir -p $SNAPCRAFT_PART_INSTALL/blobs
@@ -74,8 +74,9 @@ parts:
         plugin: dump
         source: http://builds.96boards.org/releases/dragonboard410c/linaro/rescue/17.04/dragonboard410c_bootloader_sd_linux-79.zip
         source-type: zip
-        prepare: |
+        override-build: |
             mv emmc_appsboot.mbn sd_appsboot.mbn
+            snapcraftctl build
         stage:
             - -MD5SUMS.txt
             - -NON-HLOS.bin
@@ -107,7 +108,7 @@ parts:
         plugin: dump
         source: https://git.linaro.org/landing-teams/working/qualcomm/db-boot-tools.git
         build-packages: [gdisk, fakeroot]
-        build: |
+        override-build: |
             mkdir -p $SNAPCRAFT_PART_INSTALL/blobs
             cp ../../../emmc-partitions.txt .
             sizes=$(grep -e 'size' ../../../gadget.yaml | awk -F ": " '{ print $2}')
