@@ -27,8 +27,6 @@ volumes:
         type: E1A6A689-0C8D-4CC6-B4E8-55A4320FBD8A
       - name: sec
         size: 1048576
-        content:
-            - image: blobs/sec.dat
         type: 303E6AC3-AF15-4C54-9E9B-D9A8FBECF401
       - name: aboot
         size: 2097152
