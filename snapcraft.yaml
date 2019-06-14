@@ -134,7 +134,7 @@ parts:
 
     emmc-build-blobs:
         plugin: dump
-        source: http://releases.linaro.org/96boards/dragonboard410c/linaro/rescue/latest/dragonboard-410c-bootloader-emmc-linux-*.zip
+        source: https://releases.linaro.org/96boards/dragonboard410c/linaro/rescue/latest/dragonboard-410c-bootloader-emmc-linux-*.zip
         source-type: zip
         organize:
              '*/*': blobs/
@@ -180,7 +180,7 @@ parts:
 
     gcc-linaro-aarch64-6-2:
         plugin: dump
-        source: http://releases.linaro.org/components/toolchain/binaries/6.2-2016.11/aarch64-linux-gnu/gcc-linaro-6.2.1-2016.11-x86_64_aarch64-linux-gnu.tar.xz
+        source: https://releases.linaro.org/components/toolchain/binaries/6.2-2016.11/aarch64-linux-gnu/gcc-linaro-6.2.1-2016.11-x86_64_aarch64-linux-gnu.tar.xz
         prime:
             - -*
 
