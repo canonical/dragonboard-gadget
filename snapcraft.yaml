@@ -1,5 +1,5 @@
 name: dragonboard
-version: 16.04-0.21
+version: 16.04-0.22
 summary: Dragonboard support package
 description: |
  Support files for booting the 96boards dragonboard
@@ -24,7 +24,7 @@ parts:
             - gcc-linaro-aarch64-6-2
             - skales
         source: git://git.denx.de/u-boot.git
-        source-branch: v2019.04
+        source-branch: v2019.07
         kdefconfig: [dragonboard410c_defconfig]
         kconfigs:
             - CONFIG_CMD_MD5SUM=y
@@ -75,7 +75,7 @@ parts:
             - gcc-linaro-aarch64-6-2
             - skales
         source: git://git.denx.de/u-boot.git
-        source-branch: v2019.04
+        source-branch: v2019.07
         kdefconfig: [dragonboard410c_defconfig]
         kconfigs:
             - CONFIG_CMD_MD5SUM=y
