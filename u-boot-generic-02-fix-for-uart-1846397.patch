@@ -1,0 +1,77 @@
+From 3b147f6f190efd3a251a00bc57503d8b53ed71e1 Mon Sep 17 00:00:00 2001
+From: Ondrej Kubik <ondrej.kubik@canonical.com>
+Date: Tue, 8 Oct 2019 08:46:29 +0000
+Subject: [PATCH] Ubuntu: Revert "serial: serial_msm: added pinmux & config"
+ Fix for bug # 1846397
+
+This reverts commit b460b889e28379014a7f951c08d93a151116b1ad.
+---
+ drivers/serial/serial_msm.c | 24 ++++++------------------
+ 1 file changed, 6 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/serial/serial_msm.c b/drivers/serial/serial_msm.c
+index c462394dbd..a4279accb4 100644
+--- a/drivers/serial/serial_msm.c
++++ b/drivers/serial/serial_msm.c
+@@ -16,7 +16,6 @@
+ #include <watchdog.h>
+ #include <asm/io.h>
+ #include <linux/compiler.h>
+-#include <dm/pinctrl.h>
+ 
+ /* Serial registers - this driver works in uartdm mode*/
+ 
+@@ -26,9 +25,6 @@
+ #define UARTDM_RXFS             0x50 /* RX channel status register */
+ #define UARTDM_RXFS_BUF_SHIFT   0x7  /* Number of bytes in the packing buffer */
+ #define UARTDM_RXFS_BUF_MASK    0x7
+-#define UARTDM_MR1				 0x00
+-#define UARTDM_MR2				 0x04
+-#define UARTDM_CSR				 0xA0
+ 
+ #define UARTDM_SR                0xA4 /* Status register */
+ #define UARTDM_SR_RX_READY       (1 << 0) /* Word is the receiver FIFO */
+@@ -49,10 +45,6 @@
+ #define UARTDM_TF               0x100 /* UART Transmit FIFO register */
+ #define UARTDM_RF               0x140 /* UART Receive FIFO register */
+ 
+-#define UART_DM_CLK_RX_TX_BIT_RATE 0xCC
+-#define MSM_BOOT_UART_DM_8_N_1_MODE 0x34
+-#define MSM_BOOT_UART_DM_CMD_RESET_RX 0x10
+-#define MSM_BOOT_UART_DM_CMD_RESET_TX 0x20
+ 
+ DECLARE_GLOBAL_DATA_PTR;
+ 
+@@ -187,14 +179,6 @@ static int msm_uart_clk_init(struct udevice *dev)
+ 	return 0;
+ }
+ 
+-static void uart_dm_init(struct msm_serial_data *priv)
+-{
+-	writel(UART_DM_CLK_RX_TX_BIT_RATE, priv->base + UARTDM_CSR);
+-	writel(0x0, priv->base + UARTDM_MR1);
+-	writel(MSM_BOOT_UART_DM_8_N_1_MODE, priv->base + UARTDM_MR2);
+-	writel(MSM_BOOT_UART_DM_CMD_RESET_RX, priv->base + UARTDM_CR);
+-	writel(MSM_BOOT_UART_DM_CMD_RESET_TX, priv->base + UARTDM_CR);
+-}
+ static int msm_serial_probe(struct udevice *dev)
+ {
+ 	int ret;
+@@ -208,8 +192,12 @@ static int msm_serial_probe(struct udevice *dev)
+ 	if (ret)
+ 		return ret;
+ 
+-	pinctrl_select_state(dev, "uart");
+-	uart_dm_init(priv);
++	if (readl(priv->base + UARTDM_SR) & UARTDM_SR_UART_OVERRUN)
++		writel(UARTDM_CR_CMD_RESET_ERR, priv->base + UARTDM_CR);
++
++	writel(0, priv->base + UARTDM_IMR);
++	writel(UARTDM_CR_CMD_STALE_EVENT_DISABLE, priv->base + UARTDM_CR);
++	msm_serial_fetch(dev);
+ 
+ 	return 0;
+ }
+-- 
+2.17.1
+
